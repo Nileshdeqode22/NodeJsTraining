@@ -3,11 +3,17 @@
 
 let readline = require('readline-sync');
 let result
+let decision =false
+
+
+do{
+
 
   let op = readline.question('Enter operator:');
 
-  let number1 = readline.question('Please enter a number: ');
-  let number2 = readline.question('Please enter another number: ');
+  let number1 = parseInt(readline.question('Please enter a number: '));
+  let number2 = parseInt(readline.question('Please enter another number: '));
+
 
 
   switch(op) {
@@ -36,6 +42,9 @@ let result
           break;
         
   }
+
+ 
+}while(decision!=true)
 
 
 

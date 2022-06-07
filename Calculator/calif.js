@@ -21,7 +21,7 @@ let Calculation = function(num1, num2, op) {
     } else if (op === "%") {
       let result = x % y;
     } else {
-      let result = "Error!"
+      let result = "Error!";
     }
 
     console.log("Result: " + result);
@@ -33,5 +33,7 @@ let num2 = readline.question("Please enter another number: ");
 let op = readline.question("Please enter an operator: ");
 
 let calc = new Calculation(num1, num2, op);
+
+
 
 calc.result();
