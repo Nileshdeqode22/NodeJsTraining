@@ -8,6 +8,6 @@ const object2 = tech.reduce((acc, nxt) => {
 	return acc;
 }, []);
 
-console.log("object:",object2)
+
 
 
