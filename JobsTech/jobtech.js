@@ -1,6 +1,5 @@
 const jobs = require('./jobs.json');
 const technologies=require('./technologies.json')
-
 const fs = require('fs');
 
 for(let info of jobs){

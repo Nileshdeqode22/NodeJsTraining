@@ -1,67 +1,66 @@
-
-            let readline = require('readline-sync');
-            let result;
-            let op;
-
-
-
-        readline.question(" \n\n ********sWelcome to the world of Calculator********")
-        
+//calculator using switch statement and while asking for the operation to be performed in nodejs
+let readline = require('readline-sync');
+let choice,num1,num2;
+let Addition,Subtraction,Multiplication,Division;
+let c='y';
 
 
-    for(;;){
-        console.log("\n\nPlease Enter your choice what Operation do you want to perform ?:\n");
-        op = parseInt(readline.question("1-Addition.\n2-Substraction.\n3-Multiplication.\n4-Division.\n5-Exit.\n\n"));
+while(c==='y')
+{
+    console.log("*****************************************************************************************");
+    console.log("***** welcome to the calculator *****");
+    console.log("*****************************************************************************************");
+    choice=readline.question('Enter the choice of operation to be performed\n1.Addition\n2.Subtraction\n3.Multiplication\n4.Division\n');
+    console.log("*****************************************************************************************");
+    num1=readline.question("Enter the first number\n");
+    num2=readline.question("Enter the second number\n");
+    console.log("*****************************************************************************************");
+    switch(choice)
+    {
+        case '1':
+            Addition=parseInt(num1)+parseInt(num2);
+            console.log("Addition of two numbers is\n"+Addition);
+            break;
+        case '2':
+            Subtraction=parseInt(num1)-parseInt(num2);
+            console.log("Subtraction of two numbers is \n "+Subtraction);
+            break;
+        case '3':
+            Multiplication=parseInt(num1)*parseInt(num2);
+            console.log("Multiplication of two numbers is \n "+Multiplication);
+            break;
+        case '4':
+            Division=parseInt(num1)/parseInt(num2);
+            console.log("Division of two numbers is \n "+Division);   
+            break;
 
-        if (op==5){
-            readline.question("Thank You for using Calculator....")
-            process.exit(1);
-
-        }
-        let number1 = parseInt(readline.question("\n\n Please enter a number:\n "));
-        let number2 = parseInt(readline.question("\n\n Please enter another number:\n "));
-            switch(op) {
-                    case 1:
-                        result = number1 + number2;
-                        console.log(`\n Addition of ${number1} + ${number2} = ${result}`);
-                        break;
-
-                    case 2:
-                        result = number1 - number2;
-                        console.log(`\n Substraction of ${number1} - ${number2} = ${result}`);
-                        break;
-
-                    case 3:
-                        result = number1 * number2;
-                        console.log(`\n Multiplication of ${number1} * ${number2} = ${result}`);
-                        break;
-
-
-                    case 4:
-                        if(number2===0)
-                        {
-                            console.log("OOps Divide by zero\n");
-
-                        }else{
-                            result = number1 / number2;
-                            console.log(`\n Division of ${number1} / ${number2} = ${result}`);
-                        }
-                        break;
-                    default:
-                        console.log("\n Enter correct option \n");
-                        break;
-                        
-                              
-            }
-            
-           
-
+        default:
+            console.log("Invalid choice" );
+            break;
     }
+
+    c=readline.question("***** Do you want to continue?(y/n) *****\n");
+
+    if(c==='n')
+    {
+        console.log("****** Thank you for using the calculator ******");
+    }
+
     
+}
 
 
-
-
-  
-
+//output
+//Enter the choice
+//1.Addition
+//2.Subtraction
+//3.Multiplication
+//4.Division
+//5.Exit
+//1
+//Enter the first number
+//10
+//Enter the second number
+//20
+//Addition of two numbers is 30
 
