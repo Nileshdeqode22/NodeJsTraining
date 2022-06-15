@@ -23,18 +23,18 @@ testNum(num).then(function(result) {
 //Write two functions that use Promises that you can chain! The first function, makeAllCaps(), will take in an array of words and capitalize them, and then the second function, sortWords(), will sort the words in alphabetical order. If the Array contains anything but Strings, it should throw an error.
 
 
-function makeAllCaps(arr) {
+function makeAllCaps(arr1) {
     return new Promise((resolve, reject) => {
-        if (arr.every(item => typeof item === "string")) {
-            resolve(arr.map(item => item.toUpperCase()));
+        if (arr1.every(item => typeof item === "string")) {
+            resolve(arr1.map(item => item.toUpperCase()));
         } else {
             reject("Array contains non-string values");
         }
     });
 }
 
-let arr = ["hello", "world", "this", "is", "a", "test"];
-makeAllCaps(arr).then(function(result) {
+let arr1 = ["hello", "world", "this", "is", "a", "test"];
+makeAllCaps(arr1).then(function(result) {
     console.log(result);
 }
 ).catch(function(error) {
@@ -43,10 +43,10 @@ makeAllCaps(arr).then(function(result) {
 );
 
 
-sortWords = function (arr) {
+sortWords = function (arr1) {
     return new Promise((resolve, reject) => {
-        if (arr.every(item => typeof item === "string")) {
-            resolve(arr.sort());
+        if (arr1.every(item => typeof item === "string")) {
+            resolve(arr1.sort());
         } else {
             reject("Array contains non-string values");
         }
@@ -54,7 +54,7 @@ sortWords = function (arr) {
 }
 
 
-sortWords(arr).then(function (result) {
+sortWords(arr1).then(function (result) {
     console.log(result);
 }
 ).catch(function (error) {
@@ -81,4 +81,33 @@ sleep(x).then(function () {
     console.log(error);
 }
 );
+
+//Let's assume that we have a for loop that prints 0 to 10 at random intervals (0 to 6 seconds). We need to modify it using promises to print sequentially 0 to 10. For example, if 0 takes 6 seconds to print and 1 takes two seconds to print, then 1 should wait for 0 to print, and so on wihtout math floor.
+
+function printSequentially(arr) {
+    return new Promise((resolve, reject) => {
+        let i = 0;
+        let interval = setInterval(() => {
+            if (i < arr.length) {
+                console.log(arr[i]);
+                i++;
+            } else {
+                clearInterval(interval);
+                resolve();
+            }
+        }, Math.floor(Math.random() * 6)*1000); //math.floor(Math.random()*6) returns a random number between 0 and 6. eg: 0,1,2,3,4,5,6
+
+    });
+}
+
+let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+printSequentially(arr).then(() => {
+    console.log("Done");
+}
+).catch(err => {
+    console.log(err);
+}
+)
+
+
 
