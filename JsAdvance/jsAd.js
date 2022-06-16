@@ -109,5 +109,27 @@ printSequentially(arr).then(() => {
 }
 )
 
+//The following recursive code will cause a stack overflow if the array "somelist" is too large. How can you fix this and still retain the recursive pattern?
+
+//largest array that can be used is 100000
+var somelist = [];
+for (let i = 0; i < 100000; i++) {
+    somelist.push(i);
+}
+
+
+var nextItem = () => {
+    var item = somelist.pop();
+    if (item) {
+        console.log(item);
+        setTimeout(nextItem, 0);
+    }
+}
+
+nextItem();
+
+
+
+
 
 
