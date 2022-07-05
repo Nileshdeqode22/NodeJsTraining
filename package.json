@@ -1,0 +1,51 @@
+{
+  "name": "nodejs_day01",
+  "version": "1.0.0",
+  "description": "basic node info",
+  "main": "basic.js",
+  "scripts": {
+    "lint": "eslint .",
+
+    "build": "babel basic.js -w --out-dir prod",
+    "dev-serve": "nodemon --exec babel-node prod/basic.js",
+    "dev-login": "nodemon --exec babel-node nodejs_day2/app.js"
+
+    "build" : "babel basic.js -w --out-dir prod",
+    "dev-serve":"nodemon --exec babel-node prod/basic.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nileshdeqode22/NodeJsTraining.git#feat02-nodejs_day2"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nileshdeqode22/NodeJsTraining/issues"
+  },
+  "homepage": "https://github.com/Nileshdeqode22/NodeJsTraining/tree/feat02-nodejs_day2#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.5",
+    "@babel/node": "^7.18.6",
+    "@babel/preset-env": "^7.18.2",
+    "eslint": "^8.18.0",
+    "husky": "^8.0.1",
+    "nodemon": "^2.0.18"
+  },
+  "dependencies": {
+
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+
+    "ejs": "^3.1.8",
+
+    "express": "^4.18.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint",
+      "pre-push": "start"
+    }
+  }
+}

@@ -1,1 +1,6 @@
 node_modules
+<<<<<<< HEAD
+=======
+.babelrc
+eslintrc.json
+>>>>>>> e5e0680daffbf288a3e35b923eb11a45d7797d03
