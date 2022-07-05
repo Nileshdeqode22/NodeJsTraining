@@ -8,8 +8,7 @@
 
     "build": "babel basic.js -w --out-dir prod",
     "dev-serve": "nodemon --exec babel-node prod/basic.js",
-    "dev-login": "nodemon --exec babel-node nodejs_day2/app.js"
-
+    "dev-login": "nodemon --exec babel-node nodejs_day2/app.js",
     "build" : "babel basic.js -w --out-dir prod",
     "dev-serve":"nodemon --exec babel-node prod/basic.js"
 

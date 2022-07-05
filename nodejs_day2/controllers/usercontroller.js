@@ -1,5 +1,6 @@
 import fs from 'fs';
 import brcypt from 'bcrypt';
+import { isMatch } from 'lodash';
 
 //login user.json file to check if user name and password is correct if correct return user name and email
 exports.login= (req, res) => {
@@ -23,7 +24,6 @@ exports.login= (req, res) => {
 exports.register=(req,res)=>{
     const user = req.body;
     const userData = JSON.parse(fs.readFileSync('/home/deq/NodeJsTraining/nodejs_day2/user.json'));
-    for (let data of userData) {
         switch (true) {
             //all fields mandatory
             case !user.username:
@@ -49,11 +49,35 @@ exports.register=(req,res)=>{
                 return;
             //check password is valid
             case !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(user.password):
-                res.json({
-                    message: "Password is not valid"
-                });
-                return;
-        
+                if (user.password.length < 8) {
+                    res.json({
+                        message: "Password must be at least 8 characters long"
+                    });
+                    return;
+                }else if(!/[a-z]/.test(user.password)){
+
+                    res.json({
+                        message: "Password must contain at least one lowercase letter"
+                    });
+                    return;
+                }else if(!/[A-Z]/.test(user.password)){
+                    res.json({
+                        message: "Password must contain at least one uppercase letter"
+                    });
+                    return;
+                }
+                else if(!/\d/.test(user.password)){
+                    res.json({
+                        message: "Password must contain at least one number"
+                    });
+                    return;
+                }else if(!/[@$!%*?&]/.test(user.password)){
+                    res.json({
+                        message: "Password must contain at least one special character"
+                    });
+                    return;
+                }
+
            //check if email already exists
             case userData.some(data => data.email === user.email):
                 res.json({
@@ -61,8 +85,7 @@ exports.register=(req,res)=>{
                 });
                 return;
         }
-    }
-    brcypt.hash(user.password, 16, (err, hash) => {
+        brcypt.hash(user.password, 16, (err, hash) => {
         if (err) {
             return res.status(400).json({ message: "Error hashing password" });
         }
