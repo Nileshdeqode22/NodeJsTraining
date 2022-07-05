@@ -4,13 +4,11 @@ import bodyParser from "body-parser";
 const port = 3000;
 import router from "./router/user-routes";
 
-app.use(bodyParser.json());  
-
+app.use(bodyParser.json());  // for parsing application/json
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to login application." });
     }
 );
-
 app.post("/login", router);
 app.post("/register", router);
 app.get("/allUsers", router);

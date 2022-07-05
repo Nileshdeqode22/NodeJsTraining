@@ -1,12 +1,10 @@
-const fs = require('fs');
-const brcypt = require('bcrypt');
+import fs from 'fs';
+import brcypt from 'bcrypt';
 
 //login user.json file to check if user name and password is correct if correct return user name and email
 exports.login= (req, res) => {
-
      const user = req.body;
         const userData = JSON.parse(fs.readFileSync('/home/deq/NodeJsTraining/nodejs_day2/user.json'));
-       
         for (let data of userData) {
             if (data.email === user.email && brcypt.compareSync(user.password, data.password)) {
                 res.json({
@@ -22,7 +20,7 @@ exports.login= (req, res) => {
 }
 
 //register user.json file to store a user name email and password if not already exists if exits return error message
-exports.Register=(req,res)=>{
+exports.register=(req,res)=>{
     const user = req.body;
     const userData = JSON.parse(fs.readFileSync('/home/deq/NodeJsTraining/nodejs_day2/user.json'));
     for (let data of userData) {
@@ -62,36 +60,23 @@ exports.Register=(req,res)=>{
                     message: "Email already exists"
                 });
                 return;
-
-
         }
     }
-
-    
     brcypt.hash(user.password, 16, (err, hash) => {
         if (err) {
             return res.status(400).json({ message: "Error hashing password" });
         }
         user.password = hash;
-
         userData.push(user);
         fs.writeFileSync('/home/deq/NodeJsTraining/nodejs_day2/user.json', JSON.stringify(userData));
         res.status(200).json("Registration Successful");
-    }
-    );
+    });
 }
 
-//get all user.json file to return all users
-exports.getAllUSers=('/all',(req,res)=>{
-    //check if user.json file is empty
+//get all users using generic function js
+exports.getAllUsers = (req, res) => {
     const userData = JSON.parse(fs.readFileSync('/home/deq/NodeJsTraining/nodejs_day2/user.json'));
-    if(userData.length===0){
-        res.send(500).json({
-            message: "No users found"
-        });
-    }
-    res.send(200).json(userData);
-
+    res.json(userData);
 }
-);
+
 

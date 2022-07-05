@@ -1,15 +1,9 @@
-const express = require('express');
-const router  = express.Router();
-
-import { login ,Register,getAllUSers }from '../controllers/usercontroller';
-
+import express from 'express';
+const router = express.Router();
+import { login ,register,getAllUsers }from '../controllers/usercontroller';
 
 router.post('/login', login);
-router.post('/register', Register);
-router.get('/allUsers', getAllUSers);
-
-
-
-
+router.post('/register', register);
+router.get('/allUsers', getAllUsers);
 
 export default router;
