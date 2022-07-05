@@ -5,8 +5,14 @@
   "main": "basic.js",
   "scripts": {
     "lint": "eslint .",
+
+    "build": "babel basic.js -w --out-dir prod",
+    "dev-serve": "nodemon --exec babel-node prod/basic.js",
+    "dev-login": "nodemon --exec babel-node nodejs_day2/app.js"
+
     "build" : "babel basic.js -w --out-dir prod",
     "dev-serve":"nodemon --exec babel-node prod/basic.js"
+
   },
   "repository": {
     "type": "git",
@@ -28,7 +34,12 @@
     "nodemon": "^2.0.18"
   },
   "dependencies": {
+
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+
     "ejs": "^3.1.8",
+
     "express": "^4.18.1"
   },
   "husky": {
