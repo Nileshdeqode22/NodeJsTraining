@@ -1,10 +1,11 @@
 {
-  "name": "nodejs_day01",
+  "name": "nodejs",
   "version": "1.0.0",
   "description": "basic node info",
   "main": "basic.js",
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "build": "babel basic.js -w --out-dir prod",
     "dev-serve": "nodemon --exec babel-node prod/basic.js",
     "dev-login": "nodemon --exec babel-node nodejs_day2/app.js",
@@ -34,7 +35,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19",
     "prettier": "2.7.1"
@@ -52,13 +53,12 @@
     "sequelize": "^6.21.2"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "**/*": "prettier --write --ignore-unknown"
+    "*.js": "eslint --cache --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint",
-      "pre-push": "start"
+      "pre-commit": "lint-staged"
+
     }
   }
 }
