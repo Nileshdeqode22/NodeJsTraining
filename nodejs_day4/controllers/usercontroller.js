@@ -52,8 +52,8 @@ const registerUser = (req, res) => {
     res.status(401).json({
       message: 'Please fill all fields',
     });
-  } else {
-    // check if email is already exist if exist return error email already exist
+    // if email is already exist return error email already exist
+  } else if (email) {
     register
       .findOne({
         where: {
@@ -65,64 +65,58 @@ const registerUser = (req, res) => {
           res.status(401).json({
             message: 'Email already exist',
           });
-        } else {
-          // check password regex if not match return error password must be at least 8 characters, contain at least one number and one special character
-          // eslint-disable-next-line no-lonely-if
-          if (
-            !password.match(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-            )
-          ) {
-            res.status(401).json({
-              message:
-                'Password must be at least 8 characters, contain at least one number and one special character',
-            });
-          } else {
-            // if all fields are filled and password is match with regex then store user in register db model
-            register
-              .create({
-                username,
-                email,
-                password: hash,
-              })
-              // eslint-disable-next-line no-shadow
-              .then((user) => {
-                res.status(201).json({
-                  message: 'Register Successful',
-                  user,
-                });
-              })
-
-              .catch(() => {
-                res.status(401).json({
-                  message: 'Register Failed',
-                });
+          //check if password is in regex format if not return error password must be in regex format
+        } else if (
+          password.match(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+          )
+        ) {
+          // if email and password with bcrypt compare with db is correct return 200 and login success
+          register
+            .create({
+              username,
+              email,
+              password: hash,
+            })
+            .then(() => {
+              res.status(200).json({
+                message: 'Register Successful',
               });
-          }
+            })
+            .catch((err) => {
+              res.status(500).json({
+                error: err,
+              });
+            });
+        } else {
+          res.status(401).json({
+            message:
+              'Password must be 8 characters long, contain at least one number, one uppercase letter and one special character',
+          });
         }
       })
-      // eslint-disable-next-line no-unused-vars
-      .catch((_err) => {
+      .catch((err) => {
         res.status(500).json({
-          message: 'Register Failed',
+          error: err,
         });
       });
+  } else {
+    res.status(401).json({
+      message: 'Please fill all fields',
+    });
   }
 };
-// get all users using generic function js
-const getAllUsers = (_req, res) => {
+
+//get all users from register db model
+const getAllUsers = (req, res) => {
   register
     .findAll()
-    .then((user) => {
-      res.status(200).json({
-        message: 'All users',
-        user,
-      });
+    .then((users) => {
+      res.status(200).json(users);
     })
-    // eslint-disable-next-line no-unused-vars
-    .catch((_err) => {
+    .catch((err) => {
       res.status(500).json({
-        message: 'Error',
+        error: err,
       });
     });
 };

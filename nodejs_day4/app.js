@@ -6,7 +6,7 @@ import sequelize from './util/db';
 
 const app = express();
 dotenv.config();
-// import models
+
 const port = process.env.PORT;
 
 sequelize
@@ -17,6 +17,7 @@ sequelize
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
+
 // do not create table if it already exists and use the existing table and data
 sequelize
   .sync({ force: false })
