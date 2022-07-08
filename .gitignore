@@ -1,3 +1,6 @@
 node_modules
 .babelrc
-eslintrc.json
+.eslintrc.json
+.env
+.prettierrc.json
+.vscode

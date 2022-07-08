@@ -1,19 +1,18 @@
-import express from "express";
-const app = express();
-import bodyParser from "body-parser";
-const port = 3000;
-import router from "./router/user-routes";
+import express from 'express';
+import bodyParser from 'body-parser';
+import router from './router/user-routes';
 
-app.use(bodyParser.json());  // for parsing application/json
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to login application." });
-    }
-);
-app.post("/login", router);
-app.post("/register", router);
-app.get("/allUsers", router);
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json()); // for parsing application/json
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to login application.' });
+});
+app.post('/login', router);
+app.post('/register', router);
+app.get('/allUsers', router);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-}
-);
+  console.log(`Example app listening at http://localhost:${port}`);
+});

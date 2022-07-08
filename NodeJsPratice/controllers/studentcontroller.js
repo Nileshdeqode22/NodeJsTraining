@@ -1,5 +1,5 @@
-const studentController=(req, res) => {
-    res.send('student');
- }
+const studentController = (req, res) => {
+  res.send('student');
+};
 
-    export default studentController;
+export default studentController;

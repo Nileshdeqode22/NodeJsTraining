@@ -1,27 +1,27 @@
-//setup express js code
-import express from 'express'; 
+/* eslint-disable node/no-missing-import */
+/* eslint-disable import/no-unresolved */
+// setup express js code
+import express from 'express';
 import web from '../routes/web.js';
-import myLogger from '../middlewares/logger-middleware.js';
 import student from '../routes/student.js';
+
 const app = express();
 const port = 3000;
 
-//Set the view engine to ejs
+// Set the view engine to ejs
 app.set('view engine', 'ejs');
 
-//application level middleware
-//app.use(myLogger);
+// application level middleware
+// app.use(myLogger);
 
-//Load the routes
+// Load the routes
 app.use('/', web);
-app.use('/',student);
-
+app.use('/', student);
 
 app.get('/', (req, res) => {
-  res.send('Hello !')
-})
+  res.send('Hello !');
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
+  console.log(`Example app listening on port ${port}`);
+});
