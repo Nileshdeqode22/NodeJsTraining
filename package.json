@@ -9,7 +9,6 @@
     "dev-serve": "nodemon --exec babel-node prod/basic.js",
     "dev-login": "nodemon --exec babel-node nodejs_day2/app.js",
     "dev-db": "nodemon --exec babel-node nodejs_day3/index.js"
-
   },
   "repository": {
     "type": "git",
@@ -28,7 +27,8 @@
     "@babel/preset-env": "^7.18.2",
     "eslint": "^8.18.0",
     "husky": "^8.0.1",
-    "nodemon": "^2.0.18"
+    "nodemon": "^2.0.18",
+    "sequelize-cli": "^6.4.1"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
