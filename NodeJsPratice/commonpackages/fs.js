@@ -1,74 +1,65 @@
-const fs=require('fs');
+import {
+  writeFileSync,
+  appendFileSync,
+  readFile,
+  unlink,
+  mkdir,
+  rmdir,
+  readFileSync,
+  unlinkSync,
+  createWriteStream,
+  createReadStream,
+} from 'fs';
 
-fs.writeFileSync("log.txt","This is a test file");
+writeFileSync('log.txt', 'This is a test file');
 
-fs.appendFileSync("log.txt","This is a test file");
+appendFileSync('log.txt', 'This is a test file');
 
-fs.readFile("log.txt","utf-8",(err,data)=>{
-    if(err){
-        console.log(err);
-        }
-        else{
-            console.log(data.toString());
-        }
-}
-);
-
-fs.unlink("log.txt",(err)=>{
-    if(err){
-        console.log(err);
-        }
-        else{
-            console.log("file deleted");
-        }
-}
-);
-
-
-fs.mkdir("log",(err)=>{
-
-    if(err){
-        console.log(err);
-        }
-        else{
-            console.log("directory created");
-        }
-}
-);
-
-
-fs.rmdir("log",(err)=>{
-    
-        if(err){
-            console.log(err);
-            }
-            else{
-                console.log("directory deleted");
-            }
+readFile('log.txt', 'utf-8', (err, data) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(data.toString());
+  }
 });
 
-//sync methods
-fs.writeFileSync("log.txt","This is a test file");
+unlink('log.txt', (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('file deleted');
+  }
+});
 
-fs.appendFileSync("log.txt","This is a test file");
+mkdir('log', (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('directory created');
+  }
+});
 
-fs.readFileSync("log.txt","utf-8");
+rmdir('log', (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('directory deleted');
+  }
+});
 
+// sync methods
+writeFileSync('log.txt', 'This is a test file');
 
-fs.unlinkSync("log.txt");
+appendFileSync('log.txt', 'This is a test file');
 
+readFileSync('log.txt', 'utf-8');
 
-//write stream and read stream
-const ws=fs.createWriteStream("log.txt");
-ws.write("This is a test file");
+unlinkSync('log.txt');
+
+// write stream and read stream
+const ws = createWriteStream('log.txt');
+ws.write('This is a test file');
 ws.end();
 
-
-const rs=fs.createReadStream("log.txt");
+const rs = createReadStream('log.txt');
 rs.pipe(process.stdout);
-
-
-
-
-
-

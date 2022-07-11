@@ -1,6 +1,5 @@
-const homeController =(req, res) => {
-    res.send('index');
- }
+const homeController = (req, res) => {
+  res.send('index');
+};
 
- export default homeController;
-
+export default homeController;
