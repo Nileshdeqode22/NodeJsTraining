@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt';
+import express from 'express';
 import register from '../model/register';
+
+const app = express();
 
 // login if email and password is correct using login db model
 const loginUser = (req, res) => {
@@ -120,5 +123,12 @@ const getAllUsers = (req, res) => {
       });
     });
 };
+app.get('/register', (req, res) => {
+  res.render('register');
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
 
 export { loginUser, registerUser, getAllUsers };

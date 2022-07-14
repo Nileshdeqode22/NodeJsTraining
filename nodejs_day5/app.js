@@ -7,9 +7,7 @@ import sequelize from './util/db';
 
 const app = express();
 dotenv.config();
-
 const port = process.env.PORT;
-
 sequelize
   .authenticate()
   .then(() => {
@@ -32,18 +30,6 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.get('/list', (req, res) => {
-  res.render('list');
-});
 
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to login application.' });
