@@ -10,6 +10,7 @@
     "dev-serve": "nodemon --exec babel-node prod/basic.js",
     "dev-login": "nodemon --exec babel-node nodejs_day2/app.js",
     "nodeday4": "nodemon --exec babel-node nodejs_day4/app.js",
+    "nodeday5": "nodemon --exec babel-node nodejs_day5/app.js",
     "prepare": "husky install"
   },
   "repository": {
