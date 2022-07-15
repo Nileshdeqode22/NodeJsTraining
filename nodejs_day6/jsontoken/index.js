@@ -22,6 +22,7 @@ const jwtOptions = {
 //lets create the strategy for web token
 const strategy = new JWTStrategy(jwtOptions, function (JwtPayload, next) {
   console.log('payload received', JwtPayload);
+  // eslint-disable-next-line no-use-before-define
   const users = getUsers1({ id: JwtPayload.id });
   if (users) {
     next(null, users);
