@@ -10,6 +10,8 @@ import sequelize from './util/db';
 import register from './model/register';
 import initializePassport from './passport-config/passportConfig';
 
+const logout = require('express-passport-logout');
+
 initializePassport(passport);
 
 const app = express();
@@ -27,7 +29,7 @@ sequelize
   });
 
 // do not create table if it already exists and use the existing table and data
-sequelize
+register
   .sync({ force: false })
   .then(() => {
     console.log('Table created successfully');
@@ -48,6 +50,11 @@ app.use(
     resave: false,
     // Save empty value if there is no vaue which we do not want to do
     saveUninitialized: false,
+    // Cookie options with expire in one minute
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      httpOnly: true,
+    },
   })
 );
 
@@ -84,12 +91,13 @@ app.get('/users/login', checkAuthenticated, (req, res) => {
   res.render('login.ejs');
 });
 
-app.get('/users/dashboard', checkNotAuthenticated, (req, res) => {
+app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
   console.log(req.isAuthenticated());
-  res.render('dashboard', { user: req.user.name });
+  const users = await register.findAll();
+  res.render('dashboard', { user: users });
 });
 app.get('/users/logout', (req, res) => {
-  req.logout();
+  logout();
   res.render('index', { message: 'You have logged out successfully' });
 });
 app.post('/users/register', async (req, res) => {
@@ -145,6 +153,12 @@ app.post(
     failureFlash: true,
   })
 );
+// //to fetch all users from database and display them in the table
+// app.get('/all/dashboard', checkAuthenticated, async function (req, res) {
+//   const users = await register.findAll();
+//   res.render('dashboard', { data: users });
+// });
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

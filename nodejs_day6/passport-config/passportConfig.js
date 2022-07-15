@@ -59,6 +59,7 @@ function initialize(passport) {
         console.log(err);
       });
   });
+  return passport;
 }
 
 export default initialize;
