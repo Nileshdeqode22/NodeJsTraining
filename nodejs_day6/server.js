@@ -41,7 +41,7 @@ register
 app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(flash());
 app.use(
   session({
     // Key we want to keep secret which will encrypt all of our information
@@ -51,10 +51,6 @@ app.use(
     // Save empty value if there is no vaue which we do not want to do
     saveUninitialized: false,
     // Cookie options with expire in one minute
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true,
-    },
   })
 );
 
@@ -62,7 +58,7 @@ app.use(
 app.use(passport.initialize());
 // Store our variables to be persisted across the whole session. Works with app.use(Session) above
 app.use(passport.session());
-app.use(flash());
+
 app.get('/', (req, res) => {
   res.render('index');
 });

@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
   res.render('auth');
 });
 let userProfile;
+console.log(userProfile);
 app.use(passport.initialize());
 app.use(passport.session());
 app.get('/success', (req, res) => {

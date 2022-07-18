@@ -17,9 +17,11 @@
             <div class="col-sm-6">
                 <div class="well">
                         <p>
+                        <!-- welcome user nilesh in bold in ejs-->
                             <strong>Id</strong>: <%= user.id %><br>
-                            <strong>Email</strong>: <%= user.emails[0].value %><br>
-                            <strong>Name</strong>: <%= user.displayName %>
+                            <strong>Name</strong>: <%= user.displayName %></br>
+                            <strong>Givaen Name</strong>: <%= user.name.givenName %></br>
+                            <strong>Photo</strong>: <%= user.photos[0].value %>
                         </p>
                 </div>
             </div>
