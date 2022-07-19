@@ -1,32 +1,27 @@
 import register from '../model/register';
 
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStratgey = require('passport-google-oauth').OAuth2Strategy;
+
 const bcrypt = require('bcrypt');
 
 function initialize(passport) {
-  console.info('Intialized passport');
-
   const authenticateUser = (email, password, done) => {
-    console.log('Authenticating user');
     register
       .findOne({
         where: {
           email: email,
-        }, // end where
+        },
       })
       .then((user) => {
         if (user == null) {
-          console.log('User not found');
           return done(null, false);
         }
-        console.log('User found');
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
-            console.log('Password matched');
             return done(null, user);
           }
-          console.log('Password not matched');
           return done(null, false);
         });
       })
@@ -45,19 +40,43 @@ function initialize(passport) {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
+  passport.use(
+    new GoogleStratgey(
+      {
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: process.env.CALLBACK_URL,
+      },
+      function (accessToken, refreshToken, email, profile, cb) {
+        //store the user's profile into the db if not already there using sync await syntax
+        register
+          .findOrCreate({
+            where: {
+              email: profile.emails[0].value,
+              username: profile.displayName,
+            },
+            defaults: {
+              username: profile.displayName,
+              email: profile.emails[0].value,
+              password: '',
+            },
+          })
+          .then((user) => {
+            console.log('User created');
+            return cb(null, user);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    )
+  );
+  passport.serializeUser(function (user, cb) {
+    cb(null, user);
   });
 
-  passport.deserializeUser((id, done) => {
-    register
-      .findByPk(id)
-      .then((user) => {
-        done(null, user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  passport.deserializeUser(function (obj, cb) {
+    cb(null, obj);
   });
   return passport;
 }

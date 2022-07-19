@@ -1,23 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
-import flash from 'express-flash';
-//stroing session in memory psql database
-import session from 'express-session';
-import bcrypt from 'bcrypt';
 import passport from 'passport';
+import session from 'express-session';
+import flash from 'express-flash'; //stroing session in memory psql database
+import registerController from './controllers/controller';
 import sequelize from './util/db';
 import register from './model/register';
 import initializePassport from './passport-config/passportConfig';
 
-const logout = require('express-passport-logout');
-
 initializePassport(passport);
-
+const port = process.env.PORT;
 const app = express();
 dotenv.config();
-
-const port = process.env.PORT;
 
 sequelize
   .authenticate()
@@ -41,7 +36,6 @@ register
 app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(flash());
 app.use(
   session({
     // Key we want to keep secret which will encrypt all of our information
@@ -53,16 +47,6 @@ app.use(
     // Cookie options with expire in one minute
   })
 );
-
-// Funtion inside passport which initializes passport
-app.use(passport.initialize());
-// Store our variables to be persisted across the whole session. Works with app.use(Session) above
-app.use(passport.session());
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return res.redirect('/users/dashboard');
@@ -76,71 +60,55 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect('/users/login');
 }
-
+// Funtion inside passport which initializes passport
+app.use(passport.initialize());
+// Store our variables to be persisted across the whole session. Works with app.use(Session) above
+app.use(passport.session());
+app.use(flash());
+app.get('/error', (req, res) => res.send('error logging in'));
+app.get('/', (req, res) => {
+  res.render('index');
+});
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+);
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    res.redirect('/users/dashboard');
+  }
+);
+app.post('/users/register', registerController, (req, res) => {
+  res.render('register.ejs');
+});
 app.get('/users/register', checkAuthenticated, (req, res) => {
   res.render('register.ejs');
 });
-
 app.get('/users/login', checkAuthenticated, (req, res) => {
-  //flash sets a messages variable. passport sets the error message
-  console.log(req.session.flash.error);
   res.render('login.ejs');
 });
 
 app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
-  console.log(req.isAuthenticated());
-  const users = await register.findAll();
-  res.render('dashboard', { user: users });
+  try {
+    const users = await register.findAll();
+    res.render('dashboard', { user: users });
+  } catch (error) {
+    console.error(error);
+  }
 });
-app.get('/users/logout', (req, res) => {
-  logout();
-  res.render('index', { message: 'You have logged out successfully' });
-});
-app.post('/users/register', async (req, res) => {
-  const { username, email, password, password2 } = req.body;
 
-  const errors = [];
-
-  console.log('line number85', {
-    username,
-    email,
-    password,
-    password2,
-  });
-
-  if (!username || !email || !password || !password2) {
-    errors.push({ message: 'Please enter all fields' });
-  }
-
-  if (password.length < 6) {
-    errors.push({ message: 'Password must be a least 6 characters long' });
-  }
-
-  if (password !== password2) {
-    errors.push({ message: 'Passwords do not match' });
-  }
-
-  if (errors.length > 0) {
-    res.render('register', { errors, username, email, password, password2 });
-  } else {
-    //check if email is already in use
-    const user = await register.findOne({ where: { email } });
-    if (user) {
-      errors.push({ message: 'Email is already in use' });
-      res.render('register', { errors, username, email, password, password2 });
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const registerUser = await register.create({
-        username,
-        email,
-        password: hashedPassword,
-      });
-      registerUser.save();
-      req.flash('success_msg', 'You are now registered and can log in');
-      res.redirect('/users/login');
+//logout route is used to logout the user and session is destroyed at the end of the request
+app.get('/users/logout', function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
     }
-  }
+  });
+  res.redirect('/users/login');
 });
+
 app.post(
   '/users/login',
   passport.authenticate('local', {
@@ -149,11 +117,6 @@ app.post(
     failureFlash: true,
   })
 );
-// //to fetch all users from database and display them in the table
-// app.get('/all/dashboard', checkAuthenticated, async function (req, res) {
-//   const users = await register.findAll();
-//   res.render('dashboard', { data: users });
-// });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
