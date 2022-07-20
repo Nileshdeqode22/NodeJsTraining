@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <h1>Dashboard</h1>
+  <!-- display all users from users -->
+  <table class="u-full-width">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>UserName</th>
+        <th>Email</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- using node ejs using for of   -->
+      <% for (let data of user) { %>
+        <tr>
+          <td>
+            <%= data.id %>
+          </td>
+          <td>
+            <%= data.username %>
+          </td>
+          <td>
+            <%= data.email %>
+          </td>
+          <td>
+            <%= data.createdAt %>
+          </td>
+          <td>
+            <%= data.updatedAt %>
+          </td>
+        </tr>
+        <% } %>
+    </tbody>
+  </table>
+  <a href="/users/logout">Logout</a>
+
+  <h4>Hello Welcome to App </h4>
+</body>
+
+</html>

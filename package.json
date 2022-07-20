@@ -11,6 +11,10 @@
     "dev-login": "nodemon --exec babel-node nodejs_day2/app.js",
     "nodeday4": "nodemon --exec babel-node nodejs_day4/app.js",
     "nodeday5": "nodemon --exec babel-node nodejs_day5/app.js",
+    "nodeday6": "nodemon --exec babel-node nodejs_day6/server.js",
+    "gauth": "nodemon --exec babel-node nodejs_day6/googleauth/server.js",
+    "fbauth": "nodemon --exec babel-node nodejs_day6/facebookauth/server.js",
+    "jwtauth": "nodemon --exec babel-node nodejs_day6/jsontoken/index.js",
     "prepare": "husky install"
   },
   "repository": {
@@ -44,11 +48,21 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
+    "connect-pg-simple": "^7.0.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "express-flash": "^0.0.2",
+    "express-passport-logout": "^0.1.0",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
     "lodash": "^4.17.21",
+    "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.21.2"
@@ -59,7 +73,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
-
     }
   }
 }
